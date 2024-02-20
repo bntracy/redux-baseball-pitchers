@@ -1,11 +1,15 @@
 import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 function App() {
+  const dispatch = useDispatch();
   const [currentPitcher, setCurrentPitcher] = useState('Maud Nelson');
   const [currentCatcher, setCurrentCatcher] = useState('Elston Howard');
 
-  const [pitcherList, setPitcherList] = useState(['Maud Nelson', 'Ila Borders', 'Don Newcombe', 'CC Sabathia']);
-  const [catcherList, setCatcherList] = useState(['Roy Campanella', 'Elston Howard', 'Kenji Jojima']);
+  // const [pitcherList, setPitcherList] = useState(['Maud Nelson', 'Ila Borders', 'Don Newcombe', 'CC Sabathia']);
+  const pitcherList = useSelector(store => store.pitcherList);
+  // const [catcherList, setCatcherList] = useState(['Roy Campanella', 'Elston Howard', 'Kenji Jojima']);
+  const catcherList = useSelector(store => store.catcherList);
   const [newPitcher, setNewPitcher] = useState('');
   const [newCatcher, setNewCatcher] = useState('');
 
@@ -17,7 +21,11 @@ function App() {
   const handlePitcherSubmit = event => {
     event.preventDefault();
     // spread: give me everything in pitcherList, then add this new thing
-    setPitcherList([...pitcherList, newPitcher]);
+    // setPitcherList([...pitcherList, newPitcher]);
+    dispatch({
+      type: 'PITCHERLIST_ADD',
+      payload: newPitcher
+    });
     setNewPitcher('');
   };
 
@@ -29,7 +37,11 @@ function App() {
   const handleCatcherSubmit = event => {
     event.preventDefault();
     // spread: give me everything in catcherList, then add this new thing
-    setCatcherList([...catcherList, newCatcher]);
+    // setCatcherList([...catcherList, newCatcher]);
+    dispatch({
+      type: 'CATCHERLIST_ADD',
+      payload: newCatcher
+    });
     setNewCatcher('');
   };
 
